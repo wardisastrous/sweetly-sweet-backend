@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/sweetlysweet
-    username: sweetuser
-    password: sweet1234
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -22,8 +22,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: your@gmail.com
-    password: your-gmail-app-password
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -33,17 +33,17 @@ spring:
 
 app:
   jwt:
-    secret: sweetlysweet-super-secret-jwt-key-minimum-32-chars-long!!
+    secret: ${JWT_SECRET}
     expiration: 86400000
 
 cloudinary:
-  cloud-name: your-cloud-name
-  api-key: your-api-key
-  api-secret: your-api-secret
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
 
 razorpay:
-  key-id: rzp_test_XXXXXXXXXXXXXXXX
-  key-secret: your-razorpay-secret
+  key-id: ${RAZORPAY_KEY_ID}
+  key-secret: ${RAZORPAY_KEY_SECRET}
 
 server:
-  port: 8080
+  port: ${PORT:8080}
