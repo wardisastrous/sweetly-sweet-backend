@@ -1,0 +1,11 @@
+ALTER TABLE users
+    ADD COLUMN street VARCHAR(255);
+
+ALTER TABLE users
+    ADD COLUMN city VARCHAR(100);
+
+ALTER TABLE users
+    ADD COLUMN state VARCHAR(100);
+
+ALTER TABLE users
+    ADD COLUMN pincode VARCHAR(20);
