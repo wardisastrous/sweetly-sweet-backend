@@ -12,10 +12,8 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://localhost:5174",
-                "https://sweetly-sweet-frontend.vercel.app",
-                "https://sweetly-sweet-frontend-b0hxq7mpt-udayhospital-management.vercel.app"
+                "http://localhost:*",
+                "https://*.vercel.app"
         ));
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
