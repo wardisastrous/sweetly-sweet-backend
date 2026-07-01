@@ -1,7 +1,9 @@
 package com.sweetlysweet.backend.controller;
 
-import com.sweetlysweet.backend.dto.*;
+import com.sweetlysweet.backend.dto.AuthRequest;
+import com.sweetlysweet.backend.dto.RegisterRequest;
 import com.sweetlysweet.backend.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +18,20 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
-        return ResponseEntity.ok(authService.register(req));
+    public ResponseEntity<?> register(
+            @Valid @RequestBody RegisterRequest req) {
+
+        return ResponseEntity.ok(
+                authService.register(req)
+        );
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest req) {
-        return ResponseEntity.ok(authService.login(req));
+    public ResponseEntity<?> login(
+            @Valid @RequestBody AuthRequest req) {
+
+        return ResponseEntity.ok(
+                authService.login(req)
+        );
     }
 }
