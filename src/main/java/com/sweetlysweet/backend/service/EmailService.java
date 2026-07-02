@@ -24,7 +24,7 @@ public class EmailService {
             msg.setTo(toEmail);
 
             msg.setSubject(
-                    "Order Confirmed — Sweetly Sweet #" + order.getId()
+                    "Order Confirmed - Sweetly Sweet #" + order.getId()
             );
 
             msg.setText(
@@ -32,7 +32,7 @@ public class EmailService {
                             "Your order #" + order.getId() + " has been confirmed.\n\n" +
                             "Total Amount: ₹" + order.getTotalAmount() + "\n\n" +
                             "We'll notify you once your order ships.\n\n" +
-                            "Thank you for choosing Sweetly Sweet 🍫"
+                            "Thank you for choosing Sweetly Sweet."
             );
 
             mailSender.send(msg);
@@ -42,7 +42,7 @@ public class EmailService {
             );
 
         } catch (Exception e) {
-            System.out.println("Order email failed:");
+            System.out.println("========== ORDER EMAIL FAILED ==========");
             e.printStackTrace();
         }
     }
@@ -56,7 +56,7 @@ public class EmailService {
             msg.setTo(toEmail);
 
             msg.setSubject(
-                    "Order Update — Sweetly Sweet #" + order.getId()
+                    "Order Update - Sweetly Sweet #" + order.getId()
             );
 
             msg.setText(
@@ -64,7 +64,7 @@ public class EmailService {
                             "Your order #" + order.getId() +
                             " status has been updated to:\n\n" +
                             order.getOrderStatus().replace("_", " ") +
-                            "\n\nThank you,\nSweetly Sweet 🍫"
+                            "\n\nThank you,\nSweetly Sweet"
             );
 
             mailSender.send(msg);
@@ -74,7 +74,7 @@ public class EmailService {
             );
 
         } catch (Exception e) {
-            System.out.println("Status email failed:");
+            System.out.println("========== STATUS EMAIL FAILED ==========");
             e.printStackTrace();
         }
     }
