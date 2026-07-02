@@ -3,11 +3,19 @@ package com.sweetlysweet.backend.dto;
 public class CheckoutRequest {
     private AddressDto address;
     private String couponCode;
+    private String paymentMethod;
 
     public AddressDto getAddress() { return address; }
     public void setAddress(AddressDto address) { this.address = address; }
     public String getCouponCode() { return couponCode; }
     public void setCouponCode(String couponCode) { this.couponCode = couponCode; }
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
     public static class AddressDto {
         private String fullName;

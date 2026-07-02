@@ -51,9 +51,19 @@ public class AuthService {
     }
 
     private AuthResponse buildResponse(String token, User user) {
-        return new AuthResponse(token,
+        return new AuthResponse(
+                token,
                 new AuthResponse.UserDto(
-                        user.getId(), user.getName(),
-                        user.getEmail(), user.getPhone(), user.getRole()));
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getStreet(),
+                        user.getCity(),
+                        user.getState(),
+                        user.getPincode(),
+                        user.getRole()
+                )
+        );
     }
 }
