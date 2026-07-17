@@ -1,81 +1,89 @@
 package com.sweetlysweet.backend.service;
 
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.CreateEmailOptions;
+import com.resend.services.emails.model.CreateEmailResponse;
 import com.sweetlysweet.backend.entity.Order;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final Resend resend;
 
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public EmailService() {
+        String apiKey = System.getenv("RESEND_API_KEY");
+
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new RuntimeException("RESEND_API_KEY is missing!");
+        }
+
+        this.resend = new Resend(apiKey);
     }
 
     @Async
     public void sendOrderConfirmation(Order order, String toEmail) {
+
         try {
-            SimpleMailMessage msg = new SimpleMailMessage();
 
-            msg.setFrom("halogenationplus1@gmail.com");
-            msg.setTo(toEmail);
+            CreateEmailOptions params = CreateEmailOptions.builder()
+                    .from("Sweetly Sweet <onboarding@resend.dev>")
+                    .to(toEmail)
+                    .subject("Order Confirmed - Sweetly Sweet #" + order.getId())
+                    .text(
+                            "Hi " + order.getFullName() + ",\n\n" +
+                                    "Your order #" + order.getId() + " has been confirmed.\n\n" +
+                                    "Total Amount: ₹" + order.getTotalAmount() + "\n\n" +
+                                    "We'll notify you once your order ships.\n\n" +
+                                    "Thank you for choosing Sweetly Sweet."
+                    )
+                    .build();
 
-            msg.setSubject(
-                    "Order Confirmed - Sweetly Sweet #" + order.getId()
-            );
+            CreateEmailResponse response = resend.emails().send(params);
 
-            msg.setText(
-                    "Hi " + order.getFullName() + ",\n\n" +
-                            "Your order #" + order.getId() + " has been confirmed.\n\n" +
-                            "Total Amount: ₹" + order.getTotalAmount() + "\n\n" +
-                            "We'll notify you once your order ships.\n\n" +
-                            "Thank you for choosing Sweetly Sweet."
-            );
+            System.out.println("Email sent successfully!");
+            System.out.println(response.getId());
 
-            mailSender.send(msg);
+        } catch (ResendException e) {
 
-            System.out.println(
-                    "Order confirmation email sent to: " + toEmail
-            );
-
-        } catch (Exception e) {
             System.out.println("========== ORDER EMAIL FAILED ==========");
             e.printStackTrace();
+
         }
+
     }
 
     @Async
     public void sendStatusUpdate(Order order, String toEmail) {
+
         try {
-            SimpleMailMessage msg = new SimpleMailMessage();
 
-            msg.setFrom("halogenationplus1@gmail.com");
-            msg.setTo(toEmail);
+            CreateEmailOptions params = CreateEmailOptions.builder()
+                    .from("Sweetly Sweet <onboarding@resend.dev>")
+                    .to(toEmail)
+                    .subject("Order Update - Sweetly Sweet #" + order.getId())
+                    .text(
+                            "Hi " + order.getFullName() + ",\n\n" +
+                                    "Your order #" + order.getId() +
+                                    " status has been updated to:\n\n" +
+                                    order.getOrderStatus().replace("_", " ") +
+                                    "\n\nThank you,\nSweetly Sweet"
+                    )
+                    .build();
 
-            msg.setSubject(
-                    "Order Update - Sweetly Sweet #" + order.getId()
-            );
+            CreateEmailResponse response = resend.emails().send(params);
 
-            msg.setText(
-                    "Hi " + order.getFullName() + ",\n\n" +
-                            "Your order #" + order.getId() +
-                            " status has been updated to:\n\n" +
-                            order.getOrderStatus().replace("_", " ") +
-                            "\n\nThank you,\nSweetly Sweet"
-            );
+            System.out.println("Status email sent!");
+            System.out.println(response.getId());
 
-            mailSender.send(msg);
+        } catch (ResendException e) {
 
-            System.out.println(
-                    "Status update email sent to: " + toEmail
-            );
-
-        } catch (Exception e) {
             System.out.println("========== STATUS EMAIL FAILED ==========");
             e.printStackTrace();
+
         }
+
     }
 }
