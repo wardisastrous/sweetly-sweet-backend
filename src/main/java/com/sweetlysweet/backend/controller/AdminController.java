@@ -7,6 +7,7 @@ import com.sweetlysweet.backend.entity.Coupon;
 import com.sweetlysweet.backend.service.CouponService;
 import com.sweetlysweet.backend.service.OrderService;
 import com.sweetlysweet.backend.service.ProductService;
+import com.sweetlysweet.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +23,20 @@ public class AdminController {
     private final ProductService productService;
     private final OrderService orderService;
     private final CouponService couponService;
+    private final UserService userService;
     private final Cloudinary cloudinary;
 
     public AdminController(
             ProductService productService,
             OrderService orderService,
             CouponService couponService,
+            UserService userService,
             Cloudinary cloudinary) {
 
         this.productService = productService;
         this.orderService = orderService;
         this.couponService = couponService;
+        this.userService = userService;
         this.cloudinary = cloudinary;
     }
 
@@ -154,5 +158,15 @@ public class AdminController {
                 Map.of(
                         "message",
                         "Coupon deleted"));
+    }
+
+    // ==========================
+    // USERS
+    // ==========================
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(
+                userService.getAllUsers());
     }
 }
