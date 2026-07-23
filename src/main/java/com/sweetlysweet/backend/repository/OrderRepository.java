@@ -15,6 +15,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     long countByUser(User user);
 
+    List<Order> findTop5ByUserOrderByCreatedAtDesc(User user);
+
     @Query("""
             SELECT COALESCE(SUM(o.totalAmount), 0)
             FROM Order o

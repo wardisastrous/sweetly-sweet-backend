@@ -169,4 +169,12 @@ public class AdminController {
         return ResponseEntity.ok(
                 userService.getAllUsers());
     }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?> getUserDetails(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                userService.getUserDetails(id));
+    }
 }
