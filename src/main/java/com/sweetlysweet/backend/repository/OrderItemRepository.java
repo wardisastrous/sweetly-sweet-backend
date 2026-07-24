@@ -4,6 +4,8 @@ import com.sweetlysweet.backend.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query("""
@@ -14,4 +16,12 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
               AND oi.order.paymentStatus = 'PAID'
             """)
     boolean hasPurchasedProduct(Long userId, Long productId);
+
+    List<OrderItem> findAll();
+
+    @Query("""
+            SELECT SUM(oi.quantity)
+            FROM OrderItem oi
+            """)
+    Long getTotalProductsSold();
 }
